@@ -8,12 +8,12 @@ const AboutPage = () => {
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent">
-              About Orient Solutions
+              About Orient solution
             </span>
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-green-500 to-green-600 mx-auto rounded-full mb-8"></div>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            Orient Solutions is a leading provider of innovative technology solutions, specializing in professional printing systems and smart classroom technologies. We are committed to delivering excellence and helping our clients achieve their goals with cutting-edge solutions.
+            Orient solution is a leading provider of innovative technology solution, specializing in professional printing systems and smart classroom technologies. We are committed to delivering excellence and helping our clients achieve their goals with cutting-edge solution.
           </p>
         </div>
 
@@ -27,7 +27,7 @@ const AboutPage = () => {
             </div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Our Mission</h3>
             <p className="text-gray-600 leading-relaxed">
-              To provide cutting-edge technology solutions that enhance productivity and learning experiences. We strive to bridge the gap between traditional methods and modern digital solutions through innovative products and exceptional service.
+              To provide cutting-edge technology solution that enhance productivity and learning experiences. We strive to bridge the gap between traditional methods and modern digital solution through innovative products and exceptional service.
             </p>
           </div>
 
@@ -40,7 +40,7 @@ const AboutPage = () => {
             </div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Our Vision</h3>
             <p className="text-gray-600 leading-relaxed">
-              To be the leading technology partner for educational institutions and businesses, revolutionizing how people interact with technology through immersive experiences like AR visualization and smart interactive solutions.
+              To be the leading technology partner for educational institutions and businesses, revolutionizing how people interact with technology through immersive experiences like AR visualization and smart interactive solution.
             </p>
           </div>
         </div>
@@ -55,7 +55,7 @@ const AboutPage = () => {
             </div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">Quality Assurance</h3>
             <p className="text-gray-600 text-center">
-              We ensure the highest quality standards in all our products and services, providing reliable solutions you can trust for your critical business operations.
+              We ensure the highest quality standards in all our products and services, providing reliable solution you can trust for your critical business operations.
             </p>
           </div>
 
@@ -67,7 +67,7 @@ const AboutPage = () => {
             </div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">Innovation</h3>
             <p className="text-gray-600 text-center">
-              We stay at the forefront of technology, offering innovative solutions like AR visualization and smart interactive systems that transform user experiences.
+              We stay at the forefront of technology, offering innovative solution like AR visualization and smart interactive systems that transform user experiences.
             </p>
           </div>
 
@@ -124,8 +124,8 @@ const AboutPage = () => {
                 <Mail className="w-6 h-6 text-green-600" />
               </div>
               <h3 className="font-bold text-lg mb-2">Email</h3>
-              <p className="text-gray-600">info@orientsolutions.com</p>
-              <p className="text-gray-600">sales@orientsolutions.com</p>
+              <p className="text-gray-600">info@orientsolution.com</p>
+              <p className="text-gray-600">sales@orientsolution.com</p>
             </div>
             <div className="text-center">
               <div className="bg-green-100 p-4 rounded-full w-fit mx-auto mb-4">

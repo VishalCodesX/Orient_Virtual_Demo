@@ -23,7 +23,7 @@ const Navigation = () => {
             <div className="bg-gradient-to-r from-green-500 to-green-600 p-2 rounded-lg">
               <Monitor className="text-white" size={24} />
             </div>
-            <span className="text-2xl font-bold gradient-text">Orient Solutions Virtual Demo</span>
+            <span className="text-2xl font-bold gradient-text">Orient Solution Virtual Demo</span>
           </Link>
           
           {/* Desktop Navigation */}

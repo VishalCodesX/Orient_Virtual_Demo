@@ -13,7 +13,7 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center mb-12">
             <h1 className="text-5xl md:text-7xl font-bold mb-4 animate-float">
-              <span className="gradient-text">Orient Solutions</span>
+              <span className="gradient-text">Orient Solution</span>
             </h1>
             <p className="text-2xl md:text-3xl text-gray-600 font-light mb-8">
               YOU ARE IN <span className="font-bold text-green-600">GOOD HANDS</span>
@@ -103,11 +103,11 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Why Choose Orient Solutions */}
+      {/* Why Choose Orient Solution */}
       <div className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Why Choose Orient Solutions?</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Why Choose Orient Solution?</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               We combine cutting-edge technology with exceptional service to deliver solutions that exceed expectations
             </p>
@@ -181,7 +181,7 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">What Our Customers Say</h2>
-            <p className="text-lg text-gray-600">Real feedback from real customers who trust Orient Solutions</p>
+            <p className="text-lg text-gray-600">Real feedback from real customers who trust Orient Solution</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -192,7 +192,7 @@ const HomePage = () => {
                 ))}
               </div>
               <p className="text-gray-600 mb-6 italic">
-                "Orient Solutions transformed our office with their KYOCERA printers. The quality and reliability are outstanding, and their support team is incredibly responsive."
+                "Orient Solution transformed our office with their KYOCERA printers. The quality and reliability are outstanding, and their support team is incredibly responsive."
               </p>
               <div className="flex items-center">
                 <div className="bg-blue-100 p-3 rounded-full mr-4">
@@ -348,7 +348,7 @@ const HomePage = () => {
                 <div className="bg-gradient-to-r from-green-500 to-green-600 p-2 rounded-lg">
                   <Globe className="text-white" size={24} />
                 </div>
-                <span className="text-2xl font-bold">Orient Solutions</span>
+                <span className="text-2xl font-bold">Orient Solution</span>
               </div>
               <p className="text-gray-400 mb-4">
                 Your trusted partner for premium printing solutions and smart classroom technology.
@@ -376,7 +376,7 @@ const HomePage = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
               <div className="space-y-2 text-gray-400">
-                <p>📧 info@orientsolutions.com</p>
+                <p>📧 info@orientsolution.com</p>
                 <p>📞 +91 98409 09409</p>
                 <p>📍 37/62, S W Boag Rd, T Nagar, CIT Nagar West, CIT Nagar, Chennai, Tamil Nadu 600017</p>
               </div>
@@ -384,7 +384,7 @@ const HomePage = () => {
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Orient Solutions. All rights reserved.</p>
+            <p>&copy; 2024 Orient Solution. All rights reserved.</p>
           </div>
         </div>
       </footer>
