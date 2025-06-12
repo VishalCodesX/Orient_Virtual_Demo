@@ -149,7 +149,7 @@ export const raptorProducts = [
     category: "raptor",
     hasAR: true,
     modelType: "panel",
-    modelPath: "/models/panel-65.glb",
+    modelPath: "/models/new.glb",
     specs: [
       "Size: 65 inches",
       "Resolution: 3840 x 2160",
