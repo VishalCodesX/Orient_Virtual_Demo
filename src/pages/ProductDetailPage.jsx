@@ -349,9 +349,8 @@ const KyoceraProductDetail = ({ product }) => {
       <ImageModal 
         isOpen={showImageModal}
         onClose={() => setShowImageModal(false)}
-        images={productImages}          
-        currentIndex={currentImageIndex} 
-        productName={product.name}       
+        imageSrc={product.image || "https://via.placeholder.com/600x450?text=Product+Image"}
+        productName={product.name}
       />
     </div>
   );
