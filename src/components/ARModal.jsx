@@ -176,9 +176,16 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
       // AR configuration
       modelViewer.setAttribute('ar', '');
       
-      // Enhanced AR modes for better compatibility
+      // Enhanced AR modes for better iOS compatibility
       if (deviceInfo.isIOS) {
+        // iOS: Only use quick-look, remove other modes that cause downloads
         modelViewer.setAttribute('ar-modes', 'quick-look');
+        
+        // CRITICAL: Add interaction-prompt to prevent immediate download
+        modelViewer.setAttribute('interaction-prompt', 'none');
+        
+        // iOS Quick Look specific attributes
+        modelViewer.setAttribute('quick-look-browsers', 'safari chrome');
       } else {
         modelViewer.setAttribute('ar-modes', 'webxr scene-viewer');
       }
@@ -552,7 +559,7 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
     document.head.appendChild(style);
   };
 
-  // Enhanced AR launch with device-specific handling
+  // Fixed iOS AR launch - prevents download issue
   const handleLaunchAR = () => {
     const modelViewer = arContainerRef.current?.querySelector('model-viewer');
     if (!modelViewer) {
@@ -564,22 +571,52 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
       console.log('🚀 Launching AR experience...');
       console.log('📱 Device info:', deviceInfo);
 
-      // iOS-specific AR launch
+      // iOS-specific AR launch - FIXED
       if (deviceInfo.isIOS) {
         console.log('🍎 Launching iOS AR Quick Look');
         
-        // For iOS, we can try multiple approaches
-        if (modelViewer.canActivateAR) {
+        // CRITICAL: Wait for model to be fully loaded
+        if (!modelViewer.loaded) {
+          console.log('⏳ Model not loaded yet, waiting...');
+          modelViewer.addEventListener('load', () => {
+            setTimeout(() => handleLaunchAR(), 100);
+          }, { once: true });
+          return;
+        }
+
+        // Method 1: Use the built-in AR activation
+        if (typeof modelViewer.activateAR === 'function') {
+          console.log('📱 Using activateAR method');
           modelViewer.activateAR();
         } else {
-          // Fallback: trigger click event
-          const arButton = modelViewer.shadowRoot?.querySelector('button[slot="ar-button"]');
-          if (arButton) {
-            arButton.click();
-          } else {
-            // Final fallback: direct click on model-viewer
-            modelViewer.click();
-          }
+          // Method 2: Dispatch synthetic click event on the AR button
+          console.log('📱 Using synthetic click method');
+          const event = new Event('contextmenu', { 
+            bubbles: true, 
+            cancelable: true 
+          });
+          modelViewer.dispatchEvent(event);
+          
+          // Fallback: try to find and click the actual AR button
+          setTimeout(() => {
+            const arButton = modelViewer.shadowRoot?.querySelector('.ar-button') || 
+                            modelViewer.shadowRoot?.querySelector('[aria-label*="AR"]') ||
+                            modelViewer.shadowRoot?.querySelector('button[data-js-focus-visible]');
+            
+            if (arButton) {
+              console.log('📱 Found AR button, clicking...');
+              arButton.click();
+            } else {
+              console.log('📱 No AR button found, trying model click');
+              // Last resort: direct click on model
+              const clickEvent = new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true,
+                view: window
+              });
+              modelViewer.dispatchEvent(clickEvent);
+            }
+          }, 100);
         }
       } else {
         // Android/WebXR launch
