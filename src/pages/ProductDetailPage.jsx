@@ -1,177 +1,12 @@
-// Complete crash-safe src/pages/ProductDetailPage.jsx
+// Complete ProductDetailPage.jsx with dual AR options
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Star, Check, X, ZoomIn, Camera } from 'lucide-react';
+import { ArrowLeft, Star, Check, X, ZoomIn, Camera, Eye } from 'lucide-react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ARModal from '../components/ARModal';
+import CameraARButton from '../components/CameraAR/CameraARButton';
 import { getProductById } from '../data/products';
-import ModelViewer from '../components/ModelViewer';
-
-
-// Safe Model Viewer Component (embedded to avoid import issues)
-const SafeModelViewer = ({ modelType, modelPath, onARClick, productName, className = "" }) => {
-  const [rotation, setRotation] = useState(0);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-
-  console.log('🔍 Product Debug:', {
-    name: product.name,
-    type: product.type,
-    modelType: product.modelType,
-    modelPath: product.modelPath,
-    hasAR: product.hasAR
-  });
-
-  const handleARClick = () => {
-    setShowAR(true);
-  };
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRotation(prev => prev + 1);
-    }, 50);
-    return () => clearInterval(interval);
-  }, []);
-
-  const getModelShape = () => {
-    if (modelType === 'panel') {
-      return (
-        <div className="relative" style={{ perspective: '1000px' }}>
-          <div 
-            className="w-48 h-32 bg-green-500 rounded-lg shadow-lg mx-auto relative"
-            style={{ 
-              transform: `rotateY(${rotation}deg) rotateX(5deg)`,
-              transformStyle: 'preserve-3d'
-            }}
-          >
-            <div className="absolute inset-2 bg-black rounded-lg flex items-center justify-center">
-              <div className="text-white text-xs font-medium">Interactive Panel</div>
-            </div>
-            <div 
-              className="absolute top-0 right-0 w-2 h-full bg-green-600 rounded-r-lg"
-              style={{ transform: 'rotateY(90deg) translateZ(1px)' }}
-            ></div>
-          </div>
-          <div className="w-2 h-8 bg-gray-600 mx-auto mt-2"></div>
-          <div className="w-16 h-4 bg-gray-700 rounded mx-auto"></div>
-        </div>
-      );
-    } else if (modelType === 'podium') {
-      return (
-        <div className="relative" style={{ perspective: '1000px' }}>
-          <div 
-            className="w-32 h-40 bg-green-600 rounded-lg shadow-lg mx-auto relative"
-            style={{ 
-              transform: `rotateY(${rotation}deg) rotateX(5deg)`,
-              transformStyle: 'preserve-3d'
-            }}
-          >
-            <div className="w-24 h-16 bg-black rounded m-4 flex items-center justify-center">
-              <div className="text-white text-xs">Display</div>
-            </div>
-            <div className="absolute bottom-4 left-4 right-4 h-8 bg-green-700 rounded"></div>
-            <div 
-              className="absolute top-0 right-0 w-2 h-full bg-green-700 rounded-r-lg"
-              style={{ transform: 'rotateY(90deg) translateZ(1px)' }}
-            ></div>
-          </div>
-        </div>
-      );
-    }
-    
-    return (
-      <div 
-        className="w-32 h-24 bg-green-500 rounded-lg shadow-lg mx-auto"
-        style={{ transform: `rotateY(${rotation}deg)` }}
-      >
-        <div className="p-4 text-white text-xs text-center">3D Model</div>
-      </div>
-    );
-  };
-
-  return (
-    <>
-      <div className={`relative bg-gradient-to-br from-green-50 to-white rounded-xl overflow-hidden shadow-lg ${
-        isFullscreen ? 'fixed inset-4 z-50' : 'w-full h-96'
-      } ${className} flex items-center justify-center`}>
-        
-        <div className="text-center">
-          <div className="mb-6">
-            {getModelShape()}
-          </div>
-          
-          <div className="space-y-2">
-            <h3 className="text-lg font-semibold text-gray-800">
-              {modelPath ? 'Advanced 3D Model' : '3D Model Preview'}
-            </h3>
-            <p className="text-sm text-gray-600">
-              {modelPath ? 'Your Astronaut model will load here' : 'Interactive 3D model representation'}
-            </p>
-            {modelPath && (
-              <p className="text-xs text-green-600 font-medium">
-                Model file: {modelPath.split('/').pop()}
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Status Indicator */}
-        <div className="absolute top-4 left-4">
-          <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-            modelPath 
-              ? 'bg-blue-100 text-blue-800' 
-              : 'bg-yellow-100 text-yellow-800'
-          }`}>
-            {modelPath ? 'Model Ready' : 'Preview Mode'}
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="absolute top-4 right-4 flex flex-col gap-2">
-          <button 
-            onClick={() => setIsFullscreen(!isFullscreen)}
-            className="p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-200"
-            title="Fullscreen"
-          >
-            <div className="w-4 h-4 bg-green-500 rounded-sm"></div>
-          </button>
-          <button 
-            className="p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-200"
-            title="Reset View"
-          >
-            <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
-          </button>
-          <button 
-            className="p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-200"
-            title="Rotate"
-          >
-            <div className="w-4 h-4 bg-purple-500 rounded-full animate-spin"></div>
-          </button>
-        </div>
-        
-        {/* AR Button */}
-        {(modelType === 'panel' || modelType === 'podium') && onARClick && (
-          <button 
-            onClick={onARClick}
-            className="absolute bottom-4 right-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center gap-2 hover:scale-105"
-          >
-            <Camera size={20} />
-            View in AR
-          </button>
-        )}
-
-        {/* Fullscreen close */}
-        {isFullscreen && (
-          <button 
-            onClick={() => setIsFullscreen(false)}
-            className="absolute top-4 left-4 p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-200"
-          >
-            <X size={20} className="text-green-600" />
-          </button>
-        )}
-      </div>
-    </>
-  );
-};
 
 // Image Modal Component
 const ImageModal = ({ isOpen, onClose, imageSrc, productName }) => {
@@ -356,21 +191,12 @@ const KyoceraProductDetail = ({ product }) => {
   );
 };
 
-// RAPTOR Product Detail Component
+// RAPTOR Product Detail Component with Dual AR Options
 const RaptorProductDetail = ({ product }) => {
   const [showAR, setShowAR] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [activeTab, setActiveTab] = useState('specs');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // 🐛 DEBUG: Add this to see what's being passed
-  console.log('🔍 Product Debug:', {
-    name: product.name,
-    type: product.type,
-    modelType: product.modelType,
-    modelPath: product.modelPath,
-    hasAR: product.hasAR
-  });
 
   const handleARClick = () => {
     setShowAR(true);
@@ -378,16 +204,15 @@ const RaptorProductDetail = ({ product }) => {
 
   // Get all product images (main image + gallery images)
   const getAllImages = () => {
-    const images = [product.image]; // Start with main image
+    const images = [product.image];
     
-    // Add gallery images if they exist
     if (product.gallery && product.gallery.length > 0) {
       images.push(...product.gallery);
     } else {
       // Fallback demo images if no gallery is provided
       const demoImages = [
         product.image,
-        product.image, // You'll replace these with actual different angle images
+        product.image,
         product.image,
         product.image
       ];
@@ -410,7 +235,7 @@ const RaptorProductDetail = ({ product }) => {
   return (
     <>
       <div className="grid lg:grid-cols-2 gap-12">
-        {/* Product Image Gallery Section with AR Button */}
+        {/* Product Image Gallery Section */}
         <div className="space-y-6">
           {/* Main Image Gallery */}
           <div 
@@ -462,17 +287,6 @@ const RaptorProductDetail = ({ product }) => {
               </div>
             )}
 
-            {/* AR Available Overlay */}
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-              <div className="text-center text-white">
-                <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 mb-3 mx-auto w-fit">
-                  <Camera size={32} />
-                </div>
-                <h3 className="text-lg font-bold mb-1">3D & AR Available</h3>
-                <p className="text-sm text-white/90">Click "Launch AR Experience"</p>
-              </div>
-            </div>
-
             {/* Badges */}
             <div className="absolute top-4 left-4 flex gap-2">
               <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">
@@ -488,20 +302,6 @@ const RaptorProductDetail = ({ product }) => {
                 3D Model Ready
               </div>
             </div>
-
-            {/* AR Button - Always visible and clickable */}
-            {product.hasAR && (
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent image modal from opening
-                  handleARClick();
-                }}
-                className="absolute bottom-4 right-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center gap-2 hover:scale-105 z-10"
-              >
-                <Camera size={20} />
-                View in AR
-              </button>
-            )}
             
             <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
               Click to enlarge • {productImages.length} photos
@@ -543,30 +343,51 @@ const RaptorProductDetail = ({ product }) => {
             </div>
           )}
 
-          {/* AR Action Card */}
+          {/* Enhanced AR Experience Section - DUAL OPTIONS */}
           {product.hasAR && (
-            <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl shadow-lg overflow-hidden">
-              <div className="p-6 text-white">
-                <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
-                  <Camera size={20} />
-                  Experience in Augmented Reality
-                </h3>
-                <p className="text-green-100 mb-4">
-                  See how this {product.type} will look in your space before you buy
-                </p>
-                <button 
-                  onClick={handleARClick}
-                  className="w-full bg-white text-green-600 py-3 px-6 rounded-xl font-bold hover:bg-green-50 transition-all duration-200 flex items-center justify-center gap-2 hover:scale-105"
-                >
-                  <Camera size={20} />
-                  Launch AR Experience
-                </button>
+            <div className="space-y-4">
+              {/* Advanced AR Card */}
+              <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl shadow-lg overflow-hidden">
+                <div className="p-6 text-white">
+                  <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                    <Camera size={20} />
+                    Experience in Augmented Reality
+                  </h3>
+                  <p className="text-green-100 mb-4">
+                    See how this {product.modelType || product.type} will look in your space with full 3D interaction and realistic placement
+                  </p>
+                  <button 
+                    onClick={handleARClick}
+                    className="w-full bg-white text-green-600 py-3 px-6 rounded-xl font-bold hover:bg-green-50 transition-all duration-200 flex items-center justify-center gap-2 hover:scale-105"
+                  >
+                    <Camera size={20} />
+                    Launch AR Experience
+                  </button>
+                </div>
+              </div>
+
+              {/* Simple Camera AR Card - NEW ADDITION */}
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl shadow-lg overflow-hidden">
+                <div className="p-6 text-white">
+                  <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                    <Eye size={20} />
+                    View in Your Room
+                  </h3>
+                  <p className="text-blue-100 mb-4">
+                    Instantly see the product in your room with our simple camera overlay feature - no downloads required
+                  </p>
+                  <CameraARButton
+                    productName={product.name}
+                    productType={product.modelType || product.type || 'panel'}
+                    className="w-full bg-white text-blue-600 py-3 px-6 rounded-xl font-bold hover:bg-blue-50 transition-all duration-200 flex items-center justify-center gap-2 hover:scale-105"
+                  />
+                </div>
               </div>
             </div>
           )}
 
-          {/* Virtual Demo Action Card */}
-          <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl shadow-lg overflow-hidden">
+          {/* Virtual Demo Card */}
+          <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl shadow-lg overflow-hidden">
             <div className="p-6 text-white">
               <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
@@ -574,34 +395,49 @@ const RaptorProductDetail = ({ product }) => {
                 </svg>
                 Virtual Full Demo
               </h3>
-              <p className="text-blue-100 mb-4">
+              <p className="text-purple-100 mb-4">
                 Complete interactive demonstration with all features and capabilities explained
               </p>
               <button 
                 onClick={() => {
-                  // TODO: Open demo video modal
                   console.log('Open Virtual Demo for:', product.name);
                 }}
-                className="w-full bg-white text-blue-600 py-3 px-6 rounded-xl font-bold hover:bg-blue-50 transition-all duration-200 flex items-center justify-center gap-2 hover:scale-105"
+                className="w-full bg-white text-purple-600 py-3 px-6 rounded-xl font-bold hover:bg-purple-50 transition-all duration-200 flex items-center justify-center gap-2 hover:scale-105"
               >
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z"/>
                 </svg>
-                Click To Start Virtual Demo
+                Start Virtual Demo
               </button>
             </div>
           </div>
           
+          {/* AR Info Card */}
           <div className="bg-green-50 rounded-lg p-4">
             <h3 className="font-semibold text-green-800 mb-2">
-              🎮 3D Model & AR Integration
+              🎮 Multiple Viewing Options Available
             </h3>
-            <p className="text-green-600 text-sm">
-              This product features advanced 3D visualization and AR placement capabilities. 
-              Click "Launch AR Experience" to see the product in your space with full 3D interaction.
+            <p className="text-green-600 text-sm mb-3">
+              This product features multiple visualization options to help you make the best decision:
             </p>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center gap-2">
+                <Camera size={14} className="text-green-600" />
+                <span className="text-green-700"><strong>Advanced AR:</strong> Full 3D model with realistic placement</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Eye size={14} className="text-blue-600" />
+                <span className="text-green-700"><strong>Room Preview:</strong> Quick camera overlay visualization</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" className="text-purple-600">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span className="text-green-700"><strong>Virtual Demo:</strong> Interactive feature walkthrough</span>
+              </div>
+            </div>
             {product.modelPath && (
-              <div className="mt-2 text-xs text-green-700 bg-green-100 rounded px-2 py-1 inline-block">
+              <div className="mt-3 text-xs text-green-700 bg-green-100 rounded px-2 py-1 inline-block">
                 <strong>3D Model:</strong> {product.modelPath.split('/').pop()}
               </div>
             )}
@@ -616,7 +452,7 @@ const RaptorProductDetail = ({ product }) => {
                 RAPTOR
               </span>
               {product.hasAR && (
-                <span className="ar-ready-badge text-yellow-900 px-3 py-1 rounded-full text-sm font-medium">
+                <span className="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
                   AR Ready
                 </span>
               )}
@@ -715,12 +551,11 @@ const RaptorProductDetail = ({ product }) => {
         </div>
       </div>
 
-      {/* Enhanced Image Modal with Gallery Support */}
+      {/* Image Modal */}
       <ImageModal 
         isOpen={showImageModal}
         onClose={() => setShowImageModal(false)}
-        images={productImages}
-        currentIndex={currentImageIndex}
+        imageSrc={productImages[currentImageIndex]}
         productName={product.name}
       />
 
@@ -729,7 +564,7 @@ const RaptorProductDetail = ({ product }) => {
         isOpen={showAR}
         onClose={() => setShowAR(false)}
         productName={product.name}
-        modelType={product.type}
+        modelType={product.modelType || product.type}
         modelPath={product.modelPath}
       />
     </>
@@ -806,4 +641,4 @@ const ProductDetailPage = () => {
   );
 };
 
-export default ProductDetailPage;   
+export default ProductDetailPage;

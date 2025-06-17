@@ -1,8 +1,9 @@
-// Updated ModelViewer.jsx with product image fallback
+// Updated ModelViewer.jsx with product image fallback and Camera AR integration
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Camera, Eye, RotateCcw, Maximize, X, AlertCircle, CheckCircle } from 'lucide-react';
 import LoadingSpinner from './LoadingSpinner';
+import CameraARButton from './CameraAR/CameraARButton';
 
 const ModelViewer = ({ 
   modelType, 
@@ -149,12 +150,12 @@ const ModelViewer = ({
         className="w-full h-full object-cover"
         onError={(e) => {
           // If product image also fails, show a placeholder
-          e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PGNpcmNsZSBjeD0iMjAwIiBjeT0iMTIwIiByPSI0MCIgZmlsbD0iIzEwYjk4MSIgb3BhY2l0eT0iMC4yIi8+PHRleHQgeD0iNTAlIiB5PSI2MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzEwYjk4MSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk9yaWVudCBTb2x1dGlvbnM8L3RleHQ+PHRleHQgeD0iNTAlIiB5PSI3NSUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NzI4MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPVByb2R1Y3QgSW1hZ2U8L3RleHQ+PC9zdmc+';
+          e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PGNpcmNsZSBjeD0iMjAwIiBjeT0iMTIwIiByPSI0MCIgZmlsbD0iIzEwYjk4MSIgb3BhY2l0eT0iMC4yIi8+PHRleHQgeD0iNTAlIiB5PSI2MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzEwYjk4MSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk9yaWVudCBTb2x1dGlvbnM8L3RleHQ+PHRleHQgeD0iNTAlIiB5PSI3NSUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NzI4MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlByb2R1Y3QgSW1hZ2U8L3RleHQ+PC9zdmc+';
         }}
       />
       
-      {/* 3D Available Overlay */}
-      {modelPath && (
+      {/* AR & 3D Available Overlay */}
+      {(modelPath || modelType === 'panel' || modelType === 'podium') && (
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
           <div className="text-center text-white">
             <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 mb-2 mx-auto w-fit">
@@ -163,26 +164,38 @@ const ModelViewer = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
               </svg>
             </div>
-            <p className="text-sm font-medium">3D Model Available</p>
+            <p className="text-sm font-medium">AR Visualization Available</p>
             <p className="text-xs text-white/80">
-              {modelState === 'loading' ? 'Loading...' : 'Click AR button to view'}
+              {modelState === 'loading' ? 'Loading...' : 'Multiple viewing options available'}
             </p>
           </div>
         </div>
       )}
 
-      {/* AR Button - Always visible on image */}
-      {(modelType === 'panel' || modelType === 'podium') && onARClick && (
-        <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            handleARClick();
-          }}
-          className="absolute bottom-4 right-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center gap-2 hover:scale-105 z-10"
-        >
-          <Camera size={20} />
-          View in AR
-        </button>
+      {/* Enhanced AR Buttons for Image View */}
+      {(modelType === 'panel' || modelType === 'podium') && (
+        <div className="absolute bottom-4 right-4 flex flex-col gap-2">
+          {/* Advanced AR Button */}
+          {onARClick && (
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                handleARClick();
+              }}
+              className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center gap-2 hover:scale-105 text-sm"
+            >
+              <Camera size={16} />
+              Advanced AR
+            </button>
+          )}
+          
+          {/* Simple Camera AR Button */}
+          <CameraARButton
+            productName={productName}
+            productType={modelType}
+            className="text-xs px-3 py-2"
+          />
+        </div>
       )}
     </div>
   );
@@ -276,15 +289,30 @@ const ModelViewer = ({
           )}
         </div>
         
-        {/* AR Button - Only show if not already on image */}
-        {(modelType === 'panel' || modelType === 'podium') && onARClick && !(showImageFallback && productImage) && (
-          <button 
-            onClick={handleARClick}
-            className="absolute bottom-4 right-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center gap-2 hover:scale-105"
-          >
-            <Camera size={20} />
-            View in AR
-          </button>
+        {/* Enhanced AR Buttons Section for 3D Model View */}
+        {(modelType === 'panel' || modelType === 'podium') && !(showImageFallback && productImage) && (
+          <div className="absolute bottom-4 right-4 flex flex-col gap-2">
+            {/* Advanced AR Button (for supported devices) */}
+            {onARClick && (
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleARClick();
+                }}
+                className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center gap-2 hover:scale-105"
+              >
+                <Camera size={20} />
+                AR Experience
+              </button>
+            )}
+            
+            {/* Camera Overlay AR Button (for all devices) */}
+            <CameraARButton
+              productName={productName}
+              productType={modelType}
+              className="text-sm px-4 py-2"
+            />
+          </div>
         )}
 
         {/* Model Info - only show when 3D model is active */}
@@ -293,6 +321,15 @@ const ModelViewer = ({
             <div className="font-medium">{productName}</div>
             <div className="text-gray-300">
               🎮 Interactive 3D Model
+            </div>
+          </div>
+        )}
+
+        {/* AR Features Badge */}
+        {(modelType === 'panel' || modelType === 'podium') && (
+          <div className="absolute top-4 left-1/2 transform -translate-x-1/2">
+            <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-1 rounded-full text-xs font-medium shadow-lg animate-pulse">
+              🚀 AR Ready • Multiple View Options
             </div>
           </div>
         )}
