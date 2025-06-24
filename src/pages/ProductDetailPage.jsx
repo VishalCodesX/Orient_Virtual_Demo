@@ -1,4 +1,4 @@
-// Complete ProductDetailPage.jsx with dual AR options
+// Complete ProductDetailPage.jsx with clean professional design
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -136,7 +136,7 @@ const KyoceraProductDetail = ({ product }) => {
           
           <div className="mb-8">
             <button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-xl font-bold text-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg">
-              {product.price}
+              Know More
             </button>
             <p className="text-sm text-gray-600 mt-2">Click to get detailed pricing and consultation</p>
           </div>
@@ -191,7 +191,7 @@ const KyoceraProductDetail = ({ product }) => {
   );
 };
 
-// RAPTOR Product Detail Component with Dual AR Options
+// RAPTOR Product Detail Component - Clean Version
 const RaptorProductDetail = ({ product }) => {
   const [showAR, setShowAR] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
@@ -235,7 +235,7 @@ const RaptorProductDetail = ({ product }) => {
   return (
     <>
       <div className="grid lg:grid-cols-2 gap-12">
-        {/* Product Image Gallery Section */}
+        {/* Product Image Gallery Section - Clean Version */}
         <div className="space-y-6">
           {/* Main Image Gallery */}
           <div 
@@ -286,22 +286,6 @@ const RaptorProductDetail = ({ product }) => {
                 {currentImageIndex + 1} / {productImages.length}
               </div>
             )}
-
-            {/* Badges */}
-            <div className="absolute top-4 left-4 flex gap-2">
-              <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">
-                📸 Product Gallery
-              </div>
-              {product.hasAR && (
-                <div className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                  <Camera size={12} />
-                  AR Ready
-                </div>
-              )}
-              <div className="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-                3D Model Ready
-              </div>
-            </div>
             
             <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
               Click to enlarge • {productImages.length} photos
@@ -343,7 +327,7 @@ const RaptorProductDetail = ({ product }) => {
             </div>
           )}
 
-          {/* Enhanced AR Experience Section - DUAL OPTIONS */}
+          {/* Enhanced AR Experience Section - Clean Version */}
           {product.hasAR && (
             <div className="space-y-4">
               {/* Advanced AR Card */}
@@ -366,7 +350,7 @@ const RaptorProductDetail = ({ product }) => {
                 </div>
               </div>
 
-              {/* Simple Camera AR Card - NEW ADDITION */}
+              {/* Simple Camera AR Card */}
               <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl shadow-lg overflow-hidden">
                 <div className="p-6 text-white">
                   <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
@@ -412,7 +396,7 @@ const RaptorProductDetail = ({ product }) => {
             </div>
           </div>
           
-          {/* AR Info Card */}
+          {/* Clean Info Card - No Badges */}
           <div className="bg-green-50 rounded-lg p-4">
             <h3 className="font-semibold text-green-800 mb-2">
               🎮 Multiple Viewing Options Available
@@ -436,28 +420,15 @@ const RaptorProductDetail = ({ product }) => {
                 <span className="text-green-700"><strong>Virtual Demo:</strong> Interactive feature walkthrough</span>
               </div>
             </div>
-            {product.modelPath && (
-              <div className="mt-3 text-xs text-green-700 bg-green-100 rounded px-2 py-1 inline-block">
-                <strong>3D Model:</strong> {product.modelPath.split('/').pop()}
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Product Information */}
+        {/* Product Information - Clean Version */}
         <div className="space-y-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
                 RAPTOR
-              </span>
-              {product.hasAR && (
-                <span className="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  AR Ready
-                </span>
-              )}
-              <span className="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                3D Model Ready
               </span>
             </div>
             
@@ -475,7 +446,7 @@ const RaptorProductDetail = ({ product }) => {
             
             <div className="mb-8">
               <button className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-3 rounded-xl font-bold text-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg">
-                {product.price}
+                Know More
               </button>
               <p className="text-sm text-gray-600 mt-2">Click to get detailed pricing and consultation</p>
             </div>

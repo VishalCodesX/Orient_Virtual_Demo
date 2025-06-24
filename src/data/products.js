@@ -141,15 +141,15 @@ export const raptorProducts = [
     price: "Know More",
     image: "/images/raptor/panel-65.jpg",
     gallery: [
-      "/images/raptor/panel-65-front.jpg",    // Front view
-      "/images/raptor/panel-65-side.jpg",     // Side view  
-      "/images/raptor/panel-65-back.jpg",     // Back view
+      "/images/raptor/panel-65-front.jpg",
+      "/images/raptor/panel-65-side.jpg",
+      "/images/raptor/panel-65-back.jpg",
       "/images/raptor/panel-65-angle.jpg" 
     ],
     category: "raptor",
     hasAR: true,
     modelType: "panel",
-    modelPath: "/models/new.glb",
+    modelPath: "/models/panel_new.glb",
     specs: [
       "Size: 65 inches",
       "Resolution: 3840 x 2160",
@@ -170,15 +170,15 @@ export const raptorProducts = [
     price: "Know More",
     image: "/images/raptor/panel-75.jpg",
     gallery: [
-      "/images/raptor/panel-65-front.jpg",    // Front view
-      "/images/raptor/panel-65-side.jpg",     // Side view  
-      "/images/raptor/panel-65-back.jpg",     // Back view
+      "/images/raptor/panel-65-front.jpg",
+      "/images/raptor/panel-65-side.jpg",
+      "/images/raptor/panel-65-back.jpg",
       "/images/raptor/panel-65-angle.jpg" 
     ],
     category: "raptor",
     hasAR: true,
     modelType: "panel",
-    modelPath: "/models/panel-75.glb",
+    modelPath: "/models/panel_new.glb",
     specs: [
       "Size: 75 inches",
       "Resolution: 3840 x 2160",
@@ -197,17 +197,17 @@ export const raptorProducts = [
     name: "RAPTOR Interactive Panel 86\"",
     description: "Premium large interactive display solution",
     price: "Know More",
-    image: "/images/raptor/panel-75.jpg",
+    image: "/images/raptor/panel-86.jpg",
     gallery: [
-      "/images/raptor/panel-65-front.jpg",    // Front view
-      "/images/raptor/panel-65-side.jpg",     // Side view  
-      "/images/raptor/panel-65-back.jpg",     // Back view
+      "/images/raptor/panel-65-front.jpg",
+      "/images/raptor/panel-65-side.jpg",
+      "/images/raptor/panel-65-back.jpg",
       "/images/raptor/panel-65-angle.jpg" 
     ],
     category: "raptor",
     hasAR: true,
     modelType: "panel",
-    modelPath: "/models/panel-86.glb",
+    modelPath: "/models/panel_new.glb",
     specs: [
       "Size: 86 inches",
       "Resolution: 3840 x 2160",
@@ -228,9 +228,9 @@ export const raptorProducts = [
     price: "Know More",
     image: "/images/raptor/podium.jpg",
     gallery: [
-      "/images/raptor/podium-front.jpg",    // Front view
-      "/images/raptor/podium-side.jpg",     // Side view  
-      "/images/raptor/podium-back.jpg",     // Back view
+      "/images/raptor/podium-front.jpg",
+      "/images/raptor/podium-side.jpg",
+      "/images/raptor/podium-back.jpg",
       "/images/raptor/podium-angle.jpg" 
     ],
     category: "raptor",
@@ -249,6 +249,144 @@ export const raptorProducts = [
       "Adjustable Height",
       "Cable Management",
       "Secure Storage"
+    ]
+  },
+  // NEW PRODUCT 1: OPS Computer
+  {
+    id: 11,
+    name: "RAPTOR OPS Computer",
+    description: "Open Pluggable Specification Computer - Turn your panel into Windows PC",
+    price: "Know More",
+    image: "/images/raptor/ops-computer.jpg",
+    gallery: [
+      "/images/raptor/ops-front.jpg",
+      "/images/raptor/ops-side.jpg",
+      "/images/raptor/ops-ports.jpg",
+      "/images/raptor/ops-installed.jpg"
+    ],
+    category: "raptor",
+    hasAR: false, // Computer module doesn't need AR
+    modelType: "ops",
+    specs: [
+      "12th Gen Intel Core i5-12500H CPU",
+      "8GB DDR4 RAM (Max 32GB)",
+      "256GB M.2 SSD Storage",
+      "Windows 11 Pro",
+      "4K @ 60Hz Support",
+      "UHD Graphics for 12th Gen Intel"
+    ],
+    features: [
+      "Plug-and-Play Installation",
+      "Windows 11 Pro OS",
+      "4K Video Playback",
+      "Multiple Connectivity Options",
+      "Intel Core i5 Performance",
+      "3-Year Warranty"
+    ],
+    connectivity: [
+      "1x Gigabit Ethernet RJ45",
+      "1x HDMI 2.0 out (4K/60Hz)",
+      "1x DisplayPort out (4K/60Hz)", 
+      "1x USB Type-C",
+      "6x USB 3.0 Type-A",
+      "Wi-Fi Dual Band + Bluetooth 4.2"
+    ],
+    detailed_specs: {
+      processor: "Intel Core i5-12500H Quad Core (8 Thread), 3.1GHz (4.4GHz Turbo)",
+      memory: "8GB DDR4-2666MHz (2 slots, max 32GB)",
+      storage: "256GB M.2 SSD",
+      graphics: "UHD Graphics for 12th Gen Intel Processors",
+      os: "Windows 11 Pro",
+      dimensions: "180 x 195 x 30mm (7.1\" x 7.7\" x 1.2\")",
+      weight: "1.35kg with antennas",
+      power: "12-19V DC Input",
+      operating_temp: "-5°C to 45°C"
+    }
+  },
+  // NEW PRODUCT 2: LED Wall
+  {
+    id: 12,
+    name: "RAPTOR LED Wall Display",
+    description: "High-resolution LED wall for large-scale visual communication",
+    price: "Know More",
+    image: "/images/raptor/led-wall.jpg",
+    gallery: [
+      "/images/raptor/led-wall-indoor.jpg",
+      "/images/raptor/led-wall-outdoor.jpg",
+      "/images/raptor/led-wall-modules.jpg",
+      "/images/raptor/led-wall-installation.jpg"
+    ],
+    category: "raptor",
+    hasAR: true,
+    modelType: "ledwall",
+    modelPath: "/models/led-wall.glb",
+    specs: [
+      "Pixel Pitch: P2, P2.5, P3.076, P4, P5",
+      "Module Size: 320 x 160mm",
+      "Brightness: 600-800 cd/sqm (Indoor)",
+      "Refresh Rate: ≥1920Hz",
+      "Gray Scale: 16bit",
+      "Viewing Angle: 160°/160° (H/V)"
+    ],
+    features: [
+      "Modular Design",
+      "High Resolution",
+      "Edge Protection",
+      "Advanced Design",
+      "One-man Installation",
+      "Slim Thickness"
+    ],
+    variants: [
+      {
+        type: "Indoor",
+        brightness: "600-800 cd/sqm",
+        pixel_pitch: ["P2", "P2.5", "P3.076"],
+        applications: ["Conference Rooms", "Auditoriums", "Control Centers", "Broadcasting"]
+      },
+      {
+        type: "Outdoor", 
+        brightness: "4000-6000 cd/sqm",
+        pixel_pitch: ["P4", "P5", "P6"],
+        applications: ["Building Facades", "Sports Stadiums", "Advertising", "Public Spaces"]
+      }
+    ],
+    detailed_specs: {
+      density: "250000 to 400000 dots/sqm",
+      cabinet_material: "Die-casting aluminum / Iron",
+      service_access: "Front/Rear",
+      protection_rating: "IP65 (Outdoor), IP43 (Indoor)",
+      power_consumption: "300-800W/sqm (depending on configuration)",
+      control_system: "Nova/Colorlight/Linsn compatible"
+    },
+    accessories: [
+      {
+        name: "AI Auto Tracking 4K Camera",
+        description: "Intelligent camera with auto tracking capabilities"
+      },
+      {
+        name: "20x Optical Zoom PTZ",
+        description: "Professional PTZ camera with 20x zoom"
+      },
+      {
+        name: "30x Zoom PTZ", 
+        description: "High-end PTZ camera with 30x optical zoom"
+      },
+      {
+        name: "1080P HD 10X Optical Zoom",
+        description: "Compact HD camera with 10x zoom"
+      },
+      {
+        name: "Bluetooth Speakerphone",
+        description: "Wireless speakerphone for audio conferencing"
+      },
+      {
+        name: "PTZ Video Cameras",
+        description: "Professional video cameras for broadcast quality"
+      },
+      {
+        name: "RBWM-12 Bluetooth Wireless Microphone",
+        description: "Professional wireless microphone system"
+      }
     ]
   }
 ];

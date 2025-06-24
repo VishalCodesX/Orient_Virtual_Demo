@@ -1,4 +1,4 @@
-// src/components/ChatBot/KnowledgeBase.js
+// Updated KnowledgeBase.js with new products
 
 export const productKnowledgeBase = {
   raptor: {
@@ -93,9 +93,97 @@ export const productKnowledgeBase = {
         "Presentation rooms"
       ],
       pricing: "contact_sales"
+    },
+    // NEW: OPS Computer
+    ops: {
+      model: "OPS-i5-12500H",
+      name: "RAPTOR OPS Computer",
+      processor: "Intel Core i5-12500H Quad Core (8 Thread)",
+      memory: "8GB DDR4-2666MHz (Max 32GB)",
+      storage: "256GB M.2 SSD",
+      os: "Windows 11 Pro",
+      graphics: "UHD Graphics for 12th Gen Intel",
+      features: [
+        "12th Generation Intel Core i5",
+        "Windows 11 Pro OS",
+        "4K @ 60Hz video playback",
+        "Plug-and-play installation",
+        "Multiple connectivity options",
+        "3-year warranty",
+        "OPS compliant design"
+      ],
+      connectivity: [
+        "Gigabit Ethernet",
+        "Wi-Fi Dual Band",
+        "Bluetooth 4.2",
+        "HDMI 2.0 out",
+        "DisplayPort out",
+        "USB Type-C",
+        "6x USB 3.0 ports"
+      ],
+      useCases: [
+        "Upgrading Android panels to Windows",
+        "Running Windows applications on panels",
+        "Business presentations",
+        "Digital education with Windows software",
+        "Enterprise applications"
+      ],
+      pricing: "contact_sales"
+    },
+    // NEW: LED Wall
+    ledwall: {
+      model: "LED-Wall-Modular",
+      name: "RAPTOR LED Wall Display",
+      pixel_pitch: "P2, P2.5, P3.076, P4, P5",
+      module_size: "320 x 160mm",
+      brightness: {
+        indoor: "600-800 cd/sqm",
+        outdoor: "4000-6000 cd/sqm"
+      },
+      refresh_rate: "≥1920Hz",
+      gray_scale: "16bit",
+      viewing_angle: "160°/160° (H/V)",
+      features: [
+        "Modular design for scalability",
+        "High resolution display",
+        "Edge protection technology", 
+        "Advanced design aesthetics",
+        "One-man installation system",
+        "Slim thickness profile",
+        "Front and rear service access"
+      ],
+      variants: [
+        {
+          type: "Indoor LED Wall",
+          applications: ["Conference rooms", "Auditoriums", "Control centers", "Broadcasting studios"],
+          protection: "IP43"
+        },
+        {
+          type: "Outdoor LED Wall", 
+          applications: ["Building facades", "Sports stadiums", "Advertising displays", "Public spaces"],
+          protection: "IP65"
+        }
+      ],
+      accessories: [
+        "AI Auto Tracking 4K Camera",
+        "PTZ cameras with optical zoom",
+        "Bluetooth speakerphone",
+        "Wireless microphone systems"
+      ],
+      useCases: [
+        "Large venue displays",
+        "Outdoor advertising",
+        "Stadium scoreboards",
+        "Control room video walls",
+        "Broadcasting backgrounds",
+        "Corporate lobbies",
+        "Event backdrops"
+      ],
+      pricing: "contact_sales"
     }
   },
   kyocera: {
+    // ... existing KYOCERA products remain the same
     taskalfa: {
       "2020": {
         name: "KYOCERA TASKalfa 2020",
@@ -194,6 +282,18 @@ export const faqDatabase = {
     response: "RAPTOR panels run Android 14.0 with 8GB RAM and 128GB storage. They come with pre-installed educational and business apps, plus access to Google Play Store. The interface is optimized for large-screen touch interaction.",
     quickReplies: ["Pre-installed apps", "Play Store access", "Custom software", "Updates"]
   },
+  // NEW: OPS Computer FAQ
+  ops_computer: {
+    patterns: ["ops", "windows", "computer", "pc", "pluggable", "specification"],
+    response: "The RAPTOR OPS Computer transforms your Android panel into a powerful Windows 11 PC! It features 12th Gen Intel Core i5, 8GB RAM, 256GB SSD, and plugs directly into compatible panels. Perfect for running Windows applications, business software, and enterprise solutions.",
+    quickReplies: ["OPS compatibility", "Windows features", "Installation process", "Performance specs"]
+  },
+  // NEW: LED Wall FAQ  
+  led_wall: {
+    patterns: ["led wall", "led display", "video wall", "large display", "outdoor display"],
+    response: "Our RAPTOR LED Wall offers stunning visual experiences with modular design! Available in various pixel pitches (P2-P5), suitable for both indoor and outdoor use. Features include high brightness, excellent viewing angles, and easy maintenance with front/rear access.",
+    quickReplies: ["Indoor vs outdoor", "Pixel pitch options", "Installation requirements", "Maintenance"]
+  },
   warranty: {
     patterns: ["warranty", "support", "service", "maintenance"],
     response: "All Orient Solutions products come with comprehensive warranty coverage and 24/7 support. We provide on-site service, remote assistance, and preventive maintenance. Our support team is available at +91 98409 09409.",
@@ -201,8 +301,8 @@ export const faqDatabase = {
   },
   comparison: {
     patterns: ["compare", "difference", "vs", "versus", "which", "better"],
-    response: "I can help you compare our products! For RAPTOR panels: 65\" is perfect for small rooms, 75\" for medium spaces, and 86\" for large classrooms. For KYOCERA: TASKalfa for multifunction needs, ECOSYS for cost-effective printing.",
-    quickReplies: ["Panel comparison", "Printer comparison", "Size guide", "Feature comparison"]
+    response: "I can help you compare our products! For RAPTOR panels: 65\" is perfect for small rooms, 75\" for medium spaces, and 86\" for large classrooms. For KYOCERA: TASKalfa for multifunction needs, ECOSYS for cost-effective printing. We also offer OPS computers for Windows functionality and LED walls for large displays.",
+    quickReplies: ["Panel comparison", "Printer comparison", "OPS vs Android", "LED wall sizes"]
   },
   training: {
     patterns: ["training", "learn", "how to use", "tutorial", "guide"],

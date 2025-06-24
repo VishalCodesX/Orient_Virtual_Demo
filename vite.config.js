@@ -5,7 +5,14 @@ export default defineConfig({
   plugins: [react()],
   assetsInclude: ['**/*.glb', '**/*.gltf'],
   server: {
-    port: 3000,
-    open: true
+    headers: {
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+      'Cross-Origin-Opener-Policy': 'same-origin'
+    }
+  },
+  build: {
+    rollupOptions: {
+      external: ['@google/model-viewer']
+    }
   }
 })
