@@ -40,3 +40,75 @@
 .read-the-docs {
   color: #888;
 }
+/* Video Player Enhancements */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.3);
+  outline: none;
+  border-radius: 5px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  cursor: pointer;
+  border: none;
+}
+
+/* Keyboard shortcuts styling */
+kbd {
+  display: inline-block;
+  padding: 2px 4px;
+  font-size: 11px;
+  line-height: 1;
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+/* Video loading animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Fullscreen video adjustments */
+.video-fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+/* Progress bar hover effect */
+.progress-bar:hover {
+  height: 6px;
+  transition: height 0.2s ease;
+}
+
+/* Control button hover effects */
+.control-button {
+  transition: all 0.2s ease;
+}
+
+.control-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
