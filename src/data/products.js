@@ -150,6 +150,7 @@ export const raptorProducts = [
     hasAR: true,
     modelType: "panel",
     modelPath: "/models/panel_new.glb",
+    usdzPath: "/models/panel_new.usdz",
     specs: [
       "Size: 65 inches",
       "Resolution: 3840 x 2160",
@@ -179,6 +180,7 @@ export const raptorProducts = [
     hasAR: true,
     modelType: "panel",
     modelPath: "/models/panel_new.glb",
+    usdzPath: "/models/panel_new.usdz",
     specs: [
       "Size: 75 inches",
       "Resolution: 3840 x 2160",
@@ -208,6 +210,7 @@ export const raptorProducts = [
     hasAR: true,
     modelType: "panel",
     modelPath: "/models/panel_new.glb",
+    usdzPath: "/models/panel_new.usdz",
     specs: [
       "Size: 86 inches",
       "Resolution: 3840 x 2160",
@@ -237,7 +240,8 @@ export const raptorProducts = [
     hasAR: true,
     type: "podium",
     modelType: "podium",
-    modelPath: "/models/podium.glb",
+    modelPath: "/models/podium_new.glb",
+    usdzPath: "/models/podium_new.usdz",
     specs: [
       "Display: 21.5 inches",
       "Height: Adjustable",
@@ -309,15 +313,15 @@ export const raptorProducts = [
     name: "RAPTOR LED Wall Display",
     description: "High-resolution LED wall for large-scale visual communication",
     price: "Know More",
-    image: "/images/raptor/led-wall.jpg",
+    image: "/images/raptor/led_1.png",
     gallery: [
-      "/images/raptor/led-wall-indoor.jpg",
-      "/images/raptor/led-wall-outdoor.jpg",
-      "/images/raptor/led-wall-modules.jpg",
-      "/images/raptor/led-wall-installation.jpg"
+      "/images/raptor/led_1.png",
+      "/images/raptor/led_1.png",
+      "/images/raptor/led_1.png",
+      "/images/raptor/led_1.png"
     ],
     category: "raptor",
-    hasAR: true,
+    hasAR: false,
     modelType: "ledwall",
     modelPath: "/models/led-wall.glb",
     specs: [

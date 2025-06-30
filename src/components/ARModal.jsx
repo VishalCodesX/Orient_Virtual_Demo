@@ -60,9 +60,7 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
   const [isARSupported, setIsARSupported] = useState(false);
   const [arState, setARState] = useState('checking');
   const [isModelViewerLoaded, setIsModelViewerLoaded] = useState(false);
-  const [showInstructions, setShowInstructions] = useState(false);
-  const [showMeasurements, setShowMeasurements] = useState(true);
-  const [measurementUnit, setMeasurementUnit] = useState('metric');
+  const [showInstructions, setShowInstructions] = useState(false);  
   const [deviceInfo, setDeviceInfo] = useState({});
   const [modelError, setModelError] = useState(null);
   const [corsObserver, setCorsObserver] = useState(null);
@@ -474,83 +472,6 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
     }
   };
 
-  // Rest of your existing component code for MeasurementOverlay, etc.
-  const formatMeasurement = (meters, unit = 'metric') => {
-    if (unit === 'imperial') {
-      const feet = Math.floor(meters * 3.28084);
-      const inches = Math.round((meters * 39.3701) % 12);
-      const totalInches = Math.round(meters * 39.3701);
-      return {
-        primary: `${totalInches}"`,
-        secondary: feet > 0 ? `${feet}'${inches}"` : `${inches}"`
-      };
-    } else {
-      const cm = Math.round(meters * 100);
-      return {
-        primary: `${(meters).toFixed(2)}m`,
-        secondary: `${cm}cm`
-      };
-    }
-  };
-
-  const MeasurementOverlay = ({ product, dimensions, unit, visible, onToggleUnit }) => {
-    if (!visible || !dimensions) return null;
-
-    const width = formatMeasurement(dimensions.width, unit);
-    const height = formatMeasurement(dimensions.height, unit);
-    const depth = formatMeasurement(dimensions.depth, unit);
-
-    return (
-      <div className="absolute inset-0 pointer-events-none z-20">
-        <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-sm text-white p-4 rounded-xl shadow-lg max-w-xs pointer-events-auto">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="font-bold text-sm">{product.name}</h3>
-            <button 
-              onClick={onToggleUnit}
-              className="text-xs bg-white/20 px-2 py-1 rounded hover:bg-white/30 transition-colors"
-            >
-              {unit === 'metric' ? 'Ft/In' : 'Metric'}
-            </button>
-          </div>
-          
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-gray-300">Width:</span>
-              <div className="text-right">
-                <div className="font-bold">{width.primary}</div>
-                <div className="text-xs text-gray-400">{width.secondary}</div>
-              </div>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-300">Height:</span>
-              <div className="text-right">
-                <div className="font-bold">{height.primary}</div>
-                <div className="text-xs text-gray-400">{height.secondary}</div>
-              </div>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-300">Depth:</span>
-              <div className="text-right">
-                <div className="font-bold">{depth.primary}</div>
-                <div className="text-xs text-gray-400">{depth.secondary}</div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="mt-3 pt-3 border-t border-white/20">
-            <div className="flex items-center gap-2 text-xs text-green-300">
-              <Ruler size={12} />
-              <span>Realistic size</span>
-            </div>
-            <div className="flex items-center gap-2 text-xs text-blue-300 mt-1">
-              <Move size={12} />
-              <span>Free movement</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   if (!isOpen) return null;
 
@@ -569,15 +490,6 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <button 
-                onClick={() => setShowMeasurements(!showMeasurements)}
-                className={`p-2 rounded-full transition-colors ${
-                  showMeasurements ? 'bg-green-100 text-green-600' : 'text-gray-500 hover:bg-gray-100'
-                }`}
-                title="Toggle Measurements"
-              >
-                {showMeasurements ? <Eye size={20} /> : <EyeOff size={20} />}
-              </button>
               <button 
                 onClick={() => setShowInstructions(true)}
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
@@ -626,14 +538,6 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
               ) : null}
             </div>
 
-            {/* Measurement Overlay */}
-            <MeasurementOverlay
-              product={{ name: productName }}
-              dimensions={productDimensions}
-              unit={measurementUnit}
-              visible={showMeasurements}
-              onToggleUnit={() => setMeasurementUnit(measurementUnit === 'metric' ? 'imperial' : 'metric')}
-            />
 
             {/* AR Status */}
             <div className="absolute top-4 right-4">
