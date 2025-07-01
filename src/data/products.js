@@ -140,6 +140,7 @@ export const raptorProducts = [
     description: "4K Ultra HD interactive display with multi-touch",
     price: "Know More",
     image: "/images/raptor/panel-65.jpg",
+    brochureUrl: "/brochures/panel_65.pdf",
     gallery: [
       "/images/raptor/panel-65-front.jpg",
       "/images/raptor/panel-65-side.jpg",
@@ -170,6 +171,7 @@ export const raptorProducts = [
     description: "Large format interactive display for classrooms",
     price: "Know More",
     image: "/images/raptor/panel-75.jpg",
+    brochureUrl: "/brochures/panel_75.pdf",
     gallery: [
       "/images/raptor/panel-65-front.jpg",
       "/images/raptor/panel-65-side.jpg",
@@ -200,6 +202,7 @@ export const raptorProducts = [
     description: "Premium large interactive display solution",
     price: "Know More",
     image: "/images/raptor/panel-86.jpg",
+    brochureUrl: "/brochures/panel_86.pdf",
     gallery: [
       "/images/raptor/panel-65-front.jpg",
       "/images/raptor/panel-65-side.jpg",
@@ -230,6 +233,7 @@ export const raptorProducts = [
     description: "Interactive podium with integrated display and controls",
     price: "Know More",
     image: "/images/raptor/podium.jpg",
+    brochureUrl: "/brochures/panel_65.pdf",
     gallery: [
       "/images/raptor/podium-front.jpg",
       "/images/raptor/podium-side.jpg",
@@ -262,6 +266,7 @@ export const raptorProducts = [
     description: "Open Pluggable Specification Computer - Turn your panel into Windows PC",
     price: "Know More",
     image: "/images/raptor/ops-computer.jpg",
+    brochureUrl: "/brochures/ops.pdf",
     gallery: [
       "/images/raptor/ops-front.jpg",
       "/images/raptor/ops-side.jpg",
@@ -314,6 +319,7 @@ export const raptorProducts = [
     description: "High-resolution LED wall for large-scale visual communication",
     price: "Know More",
     image: "/images/raptor/led_1.png",
+    brochureUrl: "/brochures/ledwall.pdf",
     gallery: [
       "/images/raptor/led_1.png",
       "/images/raptor/led_1.png",

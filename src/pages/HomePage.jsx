@@ -320,13 +320,13 @@ const HomePage = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                onClick={() => navigate('/about')}
-                className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg hover:scale-105 flex items-center justify-center gap-2"
-              >
-                <Phone size={20} />
-                Contact Us Today
-              </button>
+            <a 
+              href="mailto:orient_oaproducts@yahoo.com"
+              className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg hover:scale-105 flex items-center justify-center gap-2"
+            >
+              <Phone size={20} />
+              Contact Us Today
+            </a>
               <button 
                 onClick={() => navigate('/kyocera')}
                 className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-gray-800 transition-all duration-200 flex items-center justify-center gap-2"

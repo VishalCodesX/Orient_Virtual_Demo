@@ -140,39 +140,51 @@ const AboutPage = () => {
           {/* Contact Form */}
           <div className="mt-12 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">Send us a Message</h3>
-            <form className="space-y-6">
+            <form 
+              action="https://formspree.io/f/xnnvwoky" 
+              method="POST"
+              className="space-y-6"
+            >
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-gray-700 font-medium mb-2">Name</label>
                   <input 
+                    name="name"
                     type="text" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
                     placeholder="Your Name"
+                    required
                   />
                 </div>
                 <div>
                   <label className="block text-gray-700 font-medium mb-2">Email</label>
                   <input 
+                    name="email"
                     type="email" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
                     placeholder="your@email.com"
+                    required
                   />
                 </div>
               </div>
               <div>
                 <label className="block text-gray-700 font-medium mb-2">Subject</label>
                 <input 
+                  name="subject"
                   type="text" 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
                   placeholder="Subject"
+                  required
                 />
               </div>
               <div>
                 <label className="block text-gray-700 font-medium mb-2">Message</label>
                 <textarea 
+                  name="message"
                   rows="4"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
                   placeholder="Your message..."
+                  required
                 ></textarea>
               </div>
               <button 
@@ -182,6 +194,7 @@ const AboutPage = () => {
                 Send Message
               </button>
             </form>
+
           </div>
         </div>
       </div>

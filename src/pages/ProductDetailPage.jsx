@@ -6,6 +6,9 @@ import ARModal from '../components/ARModal';
 import CameraARButton from '../components/CameraAR/CameraARButton';
 import { getProductById } from '../data/products';
 
+
+
+
 // Enhanced Video Modal Component with Advanced Features
 const VideoModal = ({ isOpen, onClose, videoSrc, productName }) => {
   const videoRef = useRef(null);
@@ -23,6 +26,8 @@ const VideoModal = ({ isOpen, onClose, videoSrc, productName }) => {
   const [showKeyboardHelp, setShowKeyboardHelp] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const controlsTimeoutRef = useRef(null);
+  const navigate = useNavigate();
+  
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -625,16 +630,21 @@ const KyoceraProductDetail = ({ product }) => {
         </div>
         {/* Action Buttons */}
         <div className="space-y-4">
-          <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 px-6 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 font-medium text-lg">
+          <a
+            href="mailto:info@orientsolution.com?subject=Request%20Quote&body=Hi%2C%20I%20would%20like%20to%20request%20a%20quote%20for%20your%20products."
+            className="block w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white text-center py-4 px-6 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 font-medium text-lg"
+          >
             Request Quote
-          </button>
-          <div className="grid grid-cols-2 gap-4">
-            <button className="border-2 border-blue-200 text-blue-600 py-3 px-6 rounded-xl hover:bg-blue-50 transition-colors font-medium">
-              Download Brochure
-            </button>
-            <button className="border-2 border-gray-200 text-gray-600 py-3 px-6 rounded-xl hover:bg-gray-50 transition-colors font-medium">
+          </a>
+
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            <a
+              href="mailto:info@orientsolution.com?subject=Schedule%20Demo&body=Hi%2C%20I%20would%20like%20to%20schedule%20a%20demo%20for%20your%20products."
+              className="block text-center border-2 border-gray-200 text-gray-600 py-3 px-6 rounded-xl hover:bg-gray-50 transition-colors font-medium"
+            >
               Schedule Demo
-            </button>
+            </a>  
+            <ProductBrochureButton category={product.brand} brochureUrl={product.brochureUrl} />
           </div>
         </div>
       </div>
@@ -787,7 +797,7 @@ const RaptorProductDetail = ({ product }) => {
           {product.hasAR && (
             <div className="space-y-4">
               {/* Advanced AR Card */}
-              <div className="bg-gradient-to-r from-green-500 to-green-极600 rounded-xl shadow-lg overflow-hidden">
+              <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl shadow-lg overflow-hidden">
                 <div className="p-6 text-white">
                   <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
                     <Camera size={20} />
@@ -944,16 +954,42 @@ const RaptorProductDetail = ({ product }) => {
           </div>
           {/* Action Buttons */}
           <div className="space-y-4">
-            <button className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 px-6 rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-200 font-medium text-lg">
-              Request Quote
-            </button>
-            <div className="grid grid-cols-2 gap-4">
-              <button className="border-2 border-green-200 text-green-600 py-3 px-6 rounded-xl hover:bg-green-50 transition-colors font-medium">
+          <a
+            href="mailto:info@orientsolution.com?subject=Request%20Quote&body=Hi%2C%20I%20would%20like%20to%20request%20a%20quote%20for%20your%20products."
+            className="block w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white text-center py-4 px-6 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 font-medium text-lg"
+          >
+            Request Quote
+          </a>
+
+          <div className="grid grid-cols-2 gap-4 mt-4">
+          <a
+            href="mailto:info@orientsolution.com?subject=Schedule%20Demo&body=Hi%2C%20I%20would%20like%20to%20schedule%20a%20demo%20for%20your%20products."
+            className="block text-center bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-6 rounded-xl font-medium shadow-md hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path d="M16 2v4M8 2v4M3 10h18" />
+            </svg>
+            Schedule Demo
+          </a>
+
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <a
+                href={product.brochureUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-2 border-green-200 text-green-600 py-3 px-6 rounded-xl hover:bg-green-50 transition-colors font-medium text-center block"
+              >
+                View Brochure
+              </a>
+              <a
+                href={product.brochureUrl}
+                download
+                className="border-2 border-blue-200 text-blue-600 py-3 px-6 rounded-xl hover:bg-blue-50 transition-colors font-medium text-center block"
+              >
                 Download Brochure
-              </button>
-              <button className="border-2 border-gray-200 text-gray-600 py-3 px-6 rounded-xl hover:bg-gray-50 transition-colors font-medium">
-                Schedule Demo
-              </button>
+              </a>
+            </div>
             </div>
           </div>
         </div>
