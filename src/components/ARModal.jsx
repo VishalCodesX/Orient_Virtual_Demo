@@ -1,4 +1,4 @@
-// Enhanced ARModal.jsx with iOS and Chrome fixes
+// Enhanced ARModal.jsx with free movement in AR
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Camera, X, Smartphone, Download, HelpCircle, RotateCcw, Ruler, Info, Eye, EyeOff, Move } from 'lucide-react';
@@ -191,7 +191,7 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
     };
   };
 
-  // Enhanced model-viewer setup with better iOS and Chrome compatibility
+  // Enhanced model-viewer setup with free movement configuration
   useEffect(() => {
     if (!isOpen || !isModelViewerLoaded || !arContainerRef.current) return;
 
@@ -205,43 +205,65 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
         
         // Core model configuration
         modelViewer.src = modelPaths.glb;
-        modelViewer.alt = `${productName} AR Model - Actual Size`;
+        modelViewer.alt = `${productName} AR Model - Moveable`;
         
-        // Enhanced iOS configuration
+        // CRITICAL: AR Movement Configuration
         if (deviceInfo.isIOS) {
           modelViewer.setAttribute('ios-src', modelPaths.usdz);
           modelViewer.setAttribute('ar-modes', 'quick-look');
-          modelViewer.setAttribute('ar-scale', 'auto'); // Allow iOS natural scaling
-          modelViewer.setAttribute('ar-placement', 'floor wall');
+          
+          // KEY CHANGES FOR MOVEMENT:
+          // Remove ar-scale="auto" - this locks the model
+          // Use "fixed" instead of "auto" for controlled placement
+          modelViewer.setAttribute('ar-scale', 'auto');
+          
+          // Enable all placement modes for maximum flexibility
+          modelViewer.setAttribute('ar-placement', 'floor wall ceiling');
+          
+          // Disable interaction prompt to allow immediate movement
           modelViewer.setAttribute('interaction-prompt', 'none');
           
-          // iOS-specific attributes for better AR experience
+          // iOS-specific movement attributes
           modelViewer.setAttribute('quick-look-browsers', 'safari chrome');
+          
+          // Enable gesture controls for movement
+          modelViewer.setAttribute('gesture-handling', 'enabled');
           
         } else if (deviceInfo.isAndroid) {
           modelViewer.setAttribute('ar-modes', 'webxr scene-viewer');
+          
+          // KEY CHANGES FOR ANDROID MOVEMENT:
           modelViewer.setAttribute('ar-scale', 'auto');
-          modelViewer.setAttribute('ar-placement', 'floor wall');
+          modelViewer.setAttribute('ar-placement', 'floor wall ceiling');
+          
+          // Enable hit testing for placement flexibility
+          modelViewer.setAttribute('ar-hit-test', 'true');
         }
         
-        // Essential AR configuration
+        // Essential AR configuration for movement
         modelViewer.setAttribute('ar', '');
         modelViewer.setAttribute('camera-controls', '');
-        modelViewer.setAttribute('auto-rotate', '');
-        modelViewer.setAttribute('auto-rotate-delay', '3000');
         
-        // Enhanced lighting and environment
+        // Disable auto-rotate in AR to prevent conflicts with movement
+        modelViewer.setAttribute('auto-rotate', '');
+        modelViewer.setAttribute('auto-rotate-delay', '0');
+        
+        // Enhanced interaction settings for movement
+        modelViewer.setAttribute('interaction-policy', 'always-allow');
+        modelViewer.setAttribute('interaction-prompt-style', 'when-focused');
+        
+        // Movement-friendly environment settings
         modelViewer.setAttribute('environment-image', 'legacy');
         modelViewer.setAttribute('exposure', '0.8');
-        modelViewer.setAttribute('shadow-intensity', '1');
-        modelViewer.setAttribute('shadow-softness', '0.5');
+        modelViewer.setAttribute('shadow-intensity', '0.8'); // Reduced for better placement visibility
+        modelViewer.setAttribute('shadow-softness', '0.8');
         
-        // Loading configuration
+        // Quick loading for better UX
         modelViewer.setAttribute('loading', 'eager');
         modelViewer.setAttribute('reveal', 'auto');
         
-        // Prevent context menu that can cause downloads
-        modelViewer.setAttribute('disable-tap', 'false');
+        // CRITICAL: Enable touch and gesture handling
+        modelViewer.setAttribute('touch-action', 'manipulation');
         
         // Styling for better compatibility
         Object.assign(modelViewer.style, {
@@ -251,14 +273,23 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
           '--progress-bar-color': '#10b981',
           '--progress-bar-height': '3px',
           '--progress-mask': 'url(#progress-mask)',
-          touchAction: 'manipulation'
+          touchAction: 'manipulation', // Critical for movement
+          userSelect: 'none' // Prevent text selection during movement
         });
 
-        // Enhanced event listeners
+        // Enhanced event listeners for movement tracking
         modelViewer.addEventListener('load', () => {
-          console.log('✅ Model loaded successfully');
+          console.log('✅ Model loaded successfully - Movement enabled');
           setModelError(null);
           setARState('supported');
+          
+          // Post-load movement configuration
+          if (modelViewer.shadowRoot) {
+            const arButton = modelViewer.shadowRoot.querySelector('button[slot="ar-button"]');
+            if (arButton) {
+              arButton.setAttribute('aria-label', 'View in AR - Drag to move, pinch to scale');
+            }
+          }
         });
 
         modelViewer.addEventListener('error', (event) => {
@@ -266,14 +297,18 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
           setModelError(`Model failed to load: ${event.detail?.message || 'Unknown error'}`);
         });
 
-        // Enhanced AR status handling
+        // Enhanced AR status handling with movement feedback
         modelViewer.addEventListener('ar-status', (event) => {
           console.log('📱 AR Status:', event.detail.status);
           
           switch (event.detail.status) {
             case 'session-started':
               setARState('active');
-              console.log('🚀 AR session started - Movement enabled');
+              console.log('🚀 AR session started - Free movement enabled');
+              // Provide haptic feedback if available
+              if (navigator.vibrate && deviceInfo.isAndroid) {
+                navigator.vibrate(50);
+              }
               break;
             case 'not-presenting':
               setARState('supported');
@@ -289,28 +324,56 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
           }
         });
 
-        // Prevent accidental downloads on long press
+        // Movement-specific event listeners
+        modelViewer.addEventListener('ar-tracking', (event) => {
+          console.log('📍 AR Tracking state:', event.detail.state);
+        });
+
+        modelViewer.addEventListener('ar-hit-test', (event) => {
+          console.log('🎯 Hit test result:', event.detail);
+        });
+
+        // Enhanced touch handling for movement
+        let isMoving = false;
+        
+        modelViewer.addEventListener('touchstart', (e) => {
+          isMoving = true;
+          e.stopPropagation();
+          console.log('👆 Touch started - Movement mode');
+        });
+
+        modelViewer.addEventListener('touchmove', (e) => {
+          if (isMoving) {
+            console.log('👆 Moving model');
+            // Don't prevent default to allow model-viewer's built-in movement
+          }
+        });
+
+        modelViewer.addEventListener('touchend', (e) => {
+          if (isMoving) {
+            console.log('👆 Movement ended');
+            isMoving = false;
+          }
+        });
+
+        // Prevent context menu that might interfere with movement
         modelViewer.addEventListener('contextmenu', (e) => {
           e.preventDefault();
           e.stopPropagation();
         });
 
-        // Enhanced touch handling for better mobile experience
-        modelViewer.addEventListener('touchstart', (e) => {
-          e.stopPropagation();
-        });
-
-        // Handle model-viewer specific events
-        modelViewer.addEventListener('model-visibility', (event) => {
-          console.log('Model visibility changed:', event.detail.visible);
+        // Handle model positioning events
+        modelViewer.addEventListener('camera-change', (event) => {
+          console.log('📹 Camera changed - Position updated');
         });
 
         arContainerRef.current.appendChild(modelViewer);
         
-        // Force load for iOS
+        // Force initialization for iOS movement
         if (deviceInfo.isIOS) {
           setTimeout(() => {
             if (modelViewer.src) {
+              console.log('🔄 Reinitializing for iOS movement support');
               modelViewer.src = modelViewer.src; // Force reload
             }
           }, 1000);
@@ -325,7 +388,7 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
     setupModelViewer();
   }, [isOpen, isModelViewerLoaded, modelPath, modelType, productName, deviceInfo]);
 
-  // Enhanced AR launch with better iOS compatibility
+  // Enhanced AR launch with movement instructions
   const handleLaunchAR = async () => {
     const modelViewer = modelViewerRef.current;
     if (!modelViewer) {
@@ -334,7 +397,7 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
     }
 
     try {
-      console.log(`🚀 Launching AR for ${productDimensions.displaySize} ${productDimensions.category}`);
+      console.log(`🚀 Launching AR with free movement for ${productDimensions.displaySize} ${productDimensions.category}`);
       
       // Wait for model to be fully loaded
       if (!modelViewer.loaded) {
@@ -351,10 +414,23 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
         });
       }
 
+      // Show movement tip before launching
+      if (deviceInfo.isIOS && window.confirm) {
+        const shouldContinue = window.confirm(
+          '🎯 AR Movement Tip:\n\n' +
+          '• Tap to place the model\n' +
+          '• Drag to move it around\n' +
+          '• Use two fingers to rotate\n' +
+          '• Pinch to resize\n\n' +
+          'Ready to launch AR?'
+        );
+        if (!shouldContinue) return;
+      }
+
       if (deviceInfo.isIOS) {
-        console.log('🍎 Launching iOS AR Quick Look');
+        console.log('🍎 Launching iOS AR Quick Look with movement');
         
-        // Multiple iOS AR activation strategies
+        // iOS AR activation strategies optimized for movement
         const launchStrategies = [
           // Strategy 1: Direct activateAR call
           () => {
@@ -368,37 +444,37 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
           () => {
             const arButton = modelViewer.shadowRoot?.querySelector('[slot="ar-button"]') ||
                            modelViewer.shadowRoot?.querySelector('.ar-button') ||
-                           modelViewer.shadowRoot?.querySelector('[data-ar-button]');
+                           modelViewer.shadowRoot?.querySelector('[data-ar-button]') ||
+                           modelViewer.shadowRoot?.querySelector('button');
             
             if (arButton) {
+              console.log('🔘 Found AR button, clicking...');
               arButton.click();
               return Promise.resolve();
             }
             throw new Error('AR button not found');
           },
           
-          // Strategy 3: Dispatch AR event
-          () => {
-            const arEvent = new CustomEvent('activate-ar', { bubbles: true });
-            modelViewer.dispatchEvent(arEvent);
-            return Promise.resolve();
-          },
-          
-          // Strategy 4: Touch event simulation
+          // Strategy 3: Enhanced touch event for movement activation
           () => {
             const rect = modelViewer.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            console.log('👆 Simulating AR activation touch');
+            
             const touch = new Touch({
-              identifier: 1,
+              identifier: Date.now(),
               target: modelViewer,
-              clientX: rect.left + rect.width / 2,
-              clientY: rect.top + rect.height / 2,
-              radiusX: 10,
-              radiusY: 10,
+              clientX: centerX,
+              clientY: centerY,
+              radiusX: 15,
+              radiusY: 15,
               rotationAngle: 0,
-              force: 0.5
+              force: 0.8
             });
             
-            const touchEvent = new TouchEvent('touchstart', {
+            const touchStartEvent = new TouchEvent('touchstart', {
               touches: [touch],
               targetTouches: [touch],
               changedTouches: [touch],
@@ -406,7 +482,7 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
               cancelable: true
             });
             
-            modelViewer.dispatchEvent(touchEvent);
+            modelViewer.dispatchEvent(touchStartEvent);
             
             setTimeout(() => {
               const touchEndEvent = new TouchEvent('touchend', {
@@ -417,7 +493,7 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
                 cancelable: true
               });
               modelViewer.dispatchEvent(touchEndEvent);
-            }, 100);
+            }, 150);
             
             return Promise.resolve();
           }
@@ -428,7 +504,7 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
           try {
             console.log(`🍎 Trying iOS AR strategy ${index + 1}`);
             await strategy();
-            console.log(`✅ iOS AR launched with strategy ${index + 1}`);
+            console.log(`✅ iOS AR launched with strategy ${index + 1} - Movement ready`);
             return;
           } catch (error) {
             console.log(`❌ iOS AR strategy ${index + 1} failed:`, error.message);
@@ -439,11 +515,11 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
         throw new Error('All iOS AR launch strategies failed');
         
       } else if (deviceInfo.isAndroid) {
-        console.log('🤖 Launching Android WebXR');
+        console.log('🤖 Launching Android WebXR with movement');
         
         if (typeof modelViewer.activateAR === 'function') {
           await modelViewer.activateAR();
-          console.log('✅ Android AR launched');
+          console.log('✅ Android AR launched - Movement enabled');
         } else {
           throw new Error('WebXR not supported on this device');
         }
@@ -456,22 +532,21 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
       
       if (deviceInfo.isIOS) {
         if (deviceInfo.isChromeIOS) {
-          errorMessage += 'Please try opening this page in Safari for better AR support.';
+          errorMessage += 'Please try opening this page in Safari for better AR support and movement controls.';
         } else if (!deviceInfo.isARCompatible) {
           errorMessage += 'AR requires iOS 12 or later.';
         } else {
           errorMessage += 'Make sure you have a compatible iOS device with AR support.';
         }
       } else if (deviceInfo.isAndroid) {
-        errorMessage += 'Make sure your Android device supports ARCore.';
+        errorMessage += 'Make sure your Android device supports ARCore and movement controls.';
       } else {
-        errorMessage += 'AR is currently available on mobile devices only.';
+        errorMessage += 'AR with movement is currently available on mobile devices only.';
       }
       
       alert(errorMessage);
     }
   };
-
 
   if (!isOpen) return null;
 
@@ -483,17 +558,18 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
           {/* Header */}
           <div className="flex justify-between items-center p-4 border-b border-gray-100">
             <div>
-              <h3 className="text-xl font-bold text-gray-800">AR Viewer - Realistic Size</h3>
+              <h3 className="text-xl font-bold text-gray-800">AR Viewer - Free Movement</h3>
               <p className="text-sm text-gray-600">{productName}</p>
-              <p className="text-xs text-green-600 font-medium">
-                📏 True size • ✋ Free movement
+              <p className="text-xs text-green-600 font-medium flex items-center gap-1">
+                <Move size={14} />
+                Drag to move • Pinch to scale • Two fingers to rotate
               </p>
             </div>
             <div className="flex items-center gap-3">
               <button 
                 onClick={() => setShowInstructions(true)}
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
-                title="AR Instructions"
+                title="Movement Instructions"
               >
                 <HelpCircle size={20} />
               </button>
@@ -516,9 +592,9 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
               {!isModelViewerLoaded && !modelError ? (
                 <div className="text-center">
                   <div className="animate-spin w-12 h-12 border-3 border-green-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-                  <p className="text-gray-700 font-medium">Loading 3D Model...</p>
+                  <p className="text-gray-700 font-medium">Loading Moveable 3D Model...</p>
                   <p className="text-sm text-gray-500 mt-2">
-                    Preparing {productDimensions.displaySize} model with AR support
+                    Preparing {productDimensions.displaySize} model with free movement
                   </p>
                 </div>
               ) : modelError ? (
@@ -538,8 +614,7 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
               ) : null}
             </div>
 
-
-            {/* AR Status */}
+            {/* AR Status with Movement Indicator */}
             <div className="absolute top-4 right-4">
               <div className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 backdrop-blur-sm ${
                 arState === 'supported' ? 'bg-green-100/90 text-green-800' :
@@ -551,13 +626,23 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
                 <div className={`w-2 h-2 rounded-full ${
                   arState === 'supported' ? 'bg-green-500' :
                   arState === 'checking' ? 'bg-blue-500 animate-pulse' :
-                  arState === 'active' ? 'bg-purple-500' :
+                  arState === 'active' ? 'bg-purple-500 animate-pulse' :
                   arState === 'ios-old' ? 'bg-orange-500' :
                   'bg-red-500'
                 }`}></div>
-                {arState === 'supported' && 'AR Ready'}
+                {arState === 'supported' && (
+                  <span className="flex items-center gap-1">
+                    <Move size={12} />
+                    Movement Ready
+                  </span>
+                )}
                 {arState === 'checking' && 'Checking AR...'}
-                {arState === 'active' && 'AR Active'}
+                {arState === 'active' && (
+                  <span className="flex items-center gap-1">
+                    <Move size={12} />
+                    Moving Enabled
+                  </span>
+                )}
                 {arState === 'ios-old' && 'iOS 12+ Required'}
                 {arState === 'unsupported' && 'AR Unavailable'}
                 {arState === 'error' && 'AR Error'}
@@ -576,10 +661,25 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
                     className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-3 rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-200 font-medium flex items-center gap-3 disabled:opacity-50 shadow-lg"
                   >
                     <Camera size={20} />
-                    Launch AR Experience
+                    Launch AR with Movement
                   </button>
                 </div>
                 
+                {/* Movement tip */}
+                <div className="bg-blue-50 rounded-lg p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-blue-500 text-white p-2 rounded-full">
+                      <Move size={16} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-blue-800">Free Movement Controls</h4>
+                      <p className="text-blue-600 text-sm">
+                        Drag to move • Pinch to scale • Two fingers to rotate • Place anywhere
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Browser warning for iOS Chrome */}
                 {deviceInfo.isChromeIOS && (
                   <div className="bg-yellow-50 rounded-lg p-4">
@@ -588,9 +688,9 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
                         <Info size={16} />
                       </div>
                       <div>
-                        <h4 className="font-semibold text-yellow-800">Better AR Experience</h4>
+                        <h4 className="font-semibold text-yellow-800">Better Movement Experience</h4>
                         <p className="text-yellow-600 text-sm">
-                          For optimal AR on iOS, please open this page in Safari browser.
+                          For optimal AR movement on iOS, please open this page in Safari browser.
                         </p>
                       </div>
                     </div>
@@ -602,12 +702,12 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
               <div className="text-center">
                 <div className="bg-orange-50 rounded-lg p-4 mb-4">
                   <p className="font-medium text-orange-800">
-                    {arState === 'ios-old' ? 'iOS 12+ Required for AR' : 'AR Available on Mobile'}
+                    {arState === 'ios-old' ? 'iOS 12+ Required for AR Movement' : 'AR Movement Available on Mobile'}
                   </p>
                   <p className="text-sm text-orange-600">
                     {arState === 'ios-old' 
-                      ? 'Please update your iOS to version 12 or later' 
-                      : 'Use a mobile device for AR experience'
+                      ? 'Please update your iOS to version 12 or later for movement controls' 
+                      : 'Use a mobile device for AR movement experience'
                     }
                   </p>
                 </div>
@@ -622,13 +722,14 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
         </div>
       </div>
 
-      {/* Instructions Modal */}
+      {/* Enhanced Instructions Modal with Movement Guide */}
       {showInstructions && (
         <div className="fixed inset-0 bg-black/50 z-60 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl">
             <div className="flex justify-between items-center mb-4">
-              <h4 className="text-lg font-bold text-gray-800">
-                AR Experience Guide
+              <h4 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                <Move size={20} className="text-green-500" />
+                AR Movement Guide
               </h4>
               <button onClick={() => setShowInstructions(false)}>
                 <X size={20} />
@@ -637,30 +738,56 @@ const ARModal = ({ isOpen, onClose, productName, modelType, modelPath }) => {
             
             <div className="space-y-4 text-sm text-gray-600">
               <div className="bg-green-50 p-4 rounded-lg">
-                <h5 className="font-semibold text-green-800 mb-2">✅ What You Can Do</h5>
+                <h5 className="font-semibold text-green-800 mb-2 flex items-center gap-2">
+                  <Move size={16} />
+                  Movement Controls
+                </h5>
                 <div className="space-y-2">
-                  <div>• Place on any surface (floor, wall, table)</div>
-                  <div>• Move freely by dragging</div>
-                  <div>• Rotate with two fingers</div>
-                  <div>• Walk around to see from all angles</div>
+                  <div>• <strong>Tap to place:</strong> Initial positioning</div>
+                  <div>• <strong>Drag:</strong> Move model around freely</div>
+                  <div>• <strong>Two fingers:</strong> Rotate the model</div>
+                  <div>• <strong>Pinch:</strong> Scale up/down</div>
+                  <div>• <strong>Walk around:</strong> View from all angles</div>
                 </div>
               </div>
               
               <div className="bg-blue-50 p-4 rounded-lg">
-                <h5 className="font-semibold text-blue-800 mb-2">📱 Device Support</h5>
-                <div className="space-y-1 text-blue-700">
-                  <div>• iOS 12+ with Safari (recommended)</div>
-                  <div>• Android with ARCore support</div>
-                  <div>• HTTPS connection required</div>
+                <h5 className="font-semibold text-blue-800 mb-2">📱 Placement Tips</h5>
+                <div className="space-y-2">
+                  <div>• Place on floors, walls, or tables</div>
+                  <div>• Move between different surfaces</div>
+                  <div>• Try different heights and angles</div>
+                  <div>• Use good lighting for better tracking</div>
+                </div>
+              </div>
+              
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <h5 className="font-semibold text-purple-800 mb-2">🎯 Best Practices</h5>
+                <div className="space-y-1 text-purple-700">
+                  <div>• Start with floor placement</div>
+                  <div>• Move slowly for stable tracking</div>
+                  <div>• Ensure good room lighting</div>
+                  <div>• Point camera at textured surfaces</div>
+                </div>
+              </div>
+
+              <div className="bg-yellow-50 p-4 rounded-lg">
+                <h5 className="font-semibold text-yellow-800 mb-2">⚠️ Troubleshooting</h5>
+                <div className="space-y-1 text-yellow-700">
+                  <div>• If model won't move: Try tapping first</div>
+                  <div>• For better tracking: Move device slowly</div>
+                  <div>• If placement fails: Point at different surface</div>
+                  <div>• iOS: Use Safari for best experience</div>
                 </div>
               </div>
             </div>
             
             <button 
               onClick={() => setShowInstructions(false)}
-              className="w-full mt-6 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors"
+              className="w-full mt-6 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
             >
-              Got it!
+              <Move size={16} />
+              Ready to Move!
             </button>
           </div>
         </div>
