@@ -322,9 +322,6 @@ export const raptorProducts = [
     brochureUrl: "/brochures/ledwall.pdf",
     gallery: [
       "/images/raptor/led_1.png",
-      "/images/raptor/led_1.png",
-      "/images/raptor/led_1.png",
-      "/images/raptor/led_1.png"
     ],
     category: "raptor",
     hasAR: false,

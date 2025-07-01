@@ -20,9 +20,11 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-3">
-            <div className="bg-gradient-to-r from-green-500 to-green-600 p-2 rounded-lg">
-              <Monitor className="text-white" size={24} />
-            </div>
+            <img
+              src="/images/orient_logo.png"
+              alt="Orient Solution Logo"
+              className="h-10 w-auto rounded-lg shadow-md bg-white"
+            />
             <span className="text-2xl font-bold gradient-text">Orient Solution Virtual Demo</span>
           </Link>
           
