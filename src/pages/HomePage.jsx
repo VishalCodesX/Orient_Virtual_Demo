@@ -176,7 +176,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Customer Testimonials */}
+      {/* Customer Testimonials 
       <div className="bg-gray-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -246,7 +246,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>*/}
 
       {/* Technology Showcase */}
       <div className="bg-white py-20">
