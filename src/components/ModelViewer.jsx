@@ -223,9 +223,53 @@ const ModelViewer = ({
 
   // Handle AR click - load model-viewer only when needed
   const handleARClick = () => {
-    if (onARClick) {
-      onARClick(); // Open AR modal immediately - let AR modal handle 3D loading
+    // Ensure model-viewer is loaded before delegating to AR modal
+    if (!isModelViewerLoaded) {
+      loadModelViewerScript().then(() => {
+        if (onARClick) onARClick();
+      }).catch((err) => {
+        console.error('Failed to load model-viewer script:', err);
+        if (onARClick) onARClick();
+      });
+    } else {
+      if (onARClick) onARClick();
     }
+  };
+
+  // Dynamically load the model-viewer script from CDN if not present
+  const loadModelViewerScript = () => {
+    return new Promise((resolve, reject) => {
+      try {
+        if (typeof window === 'undefined') return reject(new Error('No window object'));
+        if (window.customElements && window.customElements.get && window.customElements.get('model-viewer')) {
+          setIsModelViewerLoaded(true);
+          return resolve();
+        }
+
+        const existing = document.querySelector('script[data-model-viewer]');
+        if (existing) {
+          existing.addEventListener('load', () => {
+            setIsModelViewerLoaded(true);
+            resolve();
+          });
+          existing.addEventListener('error', (e) => reject(e));
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.setAttribute('data-model-viewer', '1');
+        script.src = 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js';
+        script.async = true;
+        script.onload = () => {
+          setIsModelViewerLoaded(true);
+          resolve();
+        };
+        script.onerror = (e) => reject(e);
+        document.head.appendChild(script);
+      } catch (err) {
+        reject(err);
+      }
+    });
   };
 
   return (

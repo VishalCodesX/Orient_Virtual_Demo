@@ -36,9 +36,10 @@ const HomePage = () => {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* KYOCERA Card */}
-            <div 
+            <button
+              type="button"
               onClick={() => navigate('/kyocera')}
-              className="group bg-white rounded-3xl shadow-xl overflow-hidden hover-lift cursor-pointer"
+              className="group bg-white rounded-3xl shadow-xl overflow-hidden hover-lift cursor-pointer text-left"
             >
               <div className="h-64 bg-gradient-to-br from-blue-500 to-blue-700 relative overflow-hidden">
                 <img 
@@ -64,12 +65,13 @@ const HomePage = () => {
                   <ArrowRight className="ml-2" size={20} />
                 </div>
               </div>
-            </div>
+            </button>
 
             {/* RAPTOR Card */}
-            <div 
+            <button
+              type="button"
               onClick={() => navigate('/raptor')}
-              className="group bg-white rounded-3xl shadow-xl overflow-hidden hover-lift cursor-pointer"
+              className="group bg-white rounded-3xl shadow-xl overflow-hidden hover-lift cursor-pointer text-left"
             >
               <div className="h-64 bg-gradient-to-br from-green-500 to-green-700 relative overflow-hidden">
                 <img 
@@ -98,7 +100,7 @@ const HomePage = () => {
                   <ArrowRight className="ml-2" size={20} />
                 </div>
               </div>
-            </div>
+            </button>
           </div>
         </div>
       </div>

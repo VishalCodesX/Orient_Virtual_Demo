@@ -1,16 +1,26 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-// Helper function to load GLB models
-export const loadGLBModel = (modelPath) => {
+// Helper function to load GLB models using GLTFLoader with optional Draco support
+export const loadGLBModel = (modelPath, { useDraco = false, dracoDecoderPath = '/draco/' } = {}) => {
   return new Promise((resolve, reject) => {
-    const loader = new THREE.GLTFLoader();
+    const loader = new GLTFLoader();
+
+    if (useDraco) {
+      const dracoLoader = new DRACOLoader();
+      dracoLoader.setDecoderPath(dracoDecoderPath);
+      loader.setDRACOLoader(dracoLoader);
+    }
+
     loader.load(
       modelPath,
-      (gltf) => {
-        resolve(gltf);
-      },
+      (gltf) => resolve(gltf),
       (progress) => {
-        console.log('Loading progress:', (progress.loaded / progress.total * 100) + '%');
+        if (progress && progress.loaded && progress.total) {
+          console.debug('Loading progress:', Math.round((progress.loaded / progress.total) * 100) + '%');
+        }
       },
       (error) => {
         console.error('Error loading model:', error);
@@ -62,17 +72,16 @@ export const setupLighting = (scene) => {
 
 // Helper function to create camera controls
 export const createOrbitControls = (camera, domElement) => {
-  // This would typically use OrbitControls from three/examples/jsm/controls/OrbitControls
-  // For now, we'll return a basic setup object
-  return {
-    enableDamping: true,
-    dampingFactor: 0.05,
-    enableZoom: true,
-    enablePan: true,
-    enableRotate: true,
-    autoRotate: false,
-    autoRotateSpeed: 2.0
-  };
+  if (!camera || !domElement) return null;
+  const controls = new OrbitControls(camera, domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  controls.enableZoom = true;
+  controls.enablePan = true;
+  controls.enableRotate = true;
+  controls.autoRotate = false;
+  controls.autoRotateSpeed = 2.0;
+  return controls;
 };
 
 // Helper function to optimize models
